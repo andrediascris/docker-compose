@@ -1,4 +1,4 @@
-## docker-compose
+# docker-compose
 No terminal para criar a rede docker 
 
    	 docker network create mongoCluster
@@ -33,3 +33,82 @@ No terminal para criar a rede docker
 ## Verificar o status do cluster
  	docker exec -it mongo1 mongosh --eval "rs.status()"
 ### Este comando exibe o status do conjunto de réplicas, incluindo quais nós estão ativos e sincronizados.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Outras possiveis funcionalidades para o cluster
+
+## Leitura distribuída: A leitura distribuída permite que consultas sejam realizadas nos nós secundários do cluster,
+aliviando a carga do nó primário e aumentando a capacidade de leitura.
+from pymongo import MongoClient
+
+	# Conectar ao cluster MongoDB
+	client = MongoClient(
+   		"mongodb://node1:27017,node2:27018,node3:27019,node4:27020/?replicaSet=replicaSet",
+    		read_preference="secondary"  # Configura a leitura em nós secundários
+	)
+
+	# Selecionar o banco de dados
+	db = client["SistemaCorp"]
+
+	# Fazer uma consulta no nó secundário
+	resultado = db.cliente.find()
+
+	# Exibir os resultados
+	for documento in resultado:
+  	    print(documento)
+       
+### O MongoClient é usado para se conectar ao cluster.
+
+## Escrita resiliente: Escrita resiliente garante que os dados sejam escritos de forma confiável,
+mesmo em um ambiente de replicação, com tolerância a falhas.
+Você pode usar o write concern para controlar o nível de garantia na escrita.
+	
+ 	from pymongo import MongoClient
+	# Conectar ao cluster MongoDB
+	client = MongoClient(
+    		"mongodb://node1:27017,node2:27018,node3:27019,node4:27020/?replicaSet=replicaSet"
+	)
+
+	# Selecionar o banco de dados e a coleção
+	db = client["SistemaCorp"]
+	colecao = db["cliente"]
+
+	# Configurar escrita com write concern
+	colecao = cliente.with_options(write_concern={"w": "majority", "j": True})
+
+	# Inserir dados com garantia de escrita resiliente
+	documento = {"nome": "Escrita Resiliente", "status": "ativo"}
+	resultado = cliente.insert_one(documento)
+	
+	# Exibir confirmação da operação
+	print(f"Documento inserido com ID: {resultado.inserted_id}")
+ 
+## Write Concern:
+### w: "majority": Exige que a escrita seja confirmada na maioria dos nós do conjunto de réplicas. 
+### Isso garante alta disponibilidade e consistência.
+## Configuração de write concern em uma coleção:
+### O método with_options() permite definir configurações de escrita específicas
+### para a coleção minhaColecao, aplicando o write concern.
+## Inserção de dados:
+###insert_one(): Realiza a escrita do documento, respeitando as garantias definidas pelo write concern.
+
+## Backup e restore automáticos
+### Automatizar backups e restaurações ajuda a proteger os dados em caso de falhas ou perdas.
+
+## Segurança e autenticação:
+### Configure autenticação no MongoDB para proteger os dados e use SSL/TLS para criptografia.
+	#Ative autenticação no mongod
+	mongod --auth
+
+	#Crie um usuário administrador:
+	use admin;
+	db.createUser({
+   	   user: "admin",
+   	   pwd: "adminCorp",
+    	   roles: [{ role: "root", db: "admin" }]
+	});
+### SSL/TLS com Docker Desktop:
+### Configure o MongoDB para usar os certificados
+	mongod --sslMode requireSSL --sslPEMKeyFile /path/to/cert.pem
+#### Compass permite autenticação e conexões seguras via SSL diretamente na interface.
