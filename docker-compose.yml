@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  node1:
+    image: mongodb/mongodb-community-server:latest
+    container_name: node1
+    networks:
+      - cluster
+    ports:
+      - "27017:27017"
+    command: mongod --replSet replicaSet --bind_ip localhost,node1
+    restart: always
+
+  node2:
+    image: mongodb/mongodb-community-server:latest
+    container_name: node2
+    networks:
+      - cluster
+    ports:
+      - "27018:27017"
+    command: mongod --replSet replicaSet --bind_ip localhost,node2
+    restart: always
+
+  node3:
+    image: mongodb/mongodb-community-server:latest
+    container_name: node3
+    networks:
+      - cluster
+    ports:
+      - "27019:27017"
+    command: mongod --replSet replicaSet --bind_ip localhost,node3
+    restart: always
+
+  node4:
+    image: mongodb/mongodb-community-server:latest
+    container_name: node4
+    networks:
+      - cluster
+    ports:
+      - "27020:27017"
+    command: mongod --replSet replicaSet --bind_ip localhost,node4
+    restart: always
+
+networks:
+  cluster:
+    driver: bridge
