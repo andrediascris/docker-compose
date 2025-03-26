@@ -15,12 +15,12 @@ No terminal para criar a rede docker
 	docker run -d --rm -p 27019:27017 --name node3 --network cluster mongodb/mongodb-community-server:latest --replSet replicaSet --bind_ip localhost,node3
 	docker run -d --rm -p 27020:27017 --name node4 --network cluster mongodb/mongodb-community-server:latest --replSet replicaSet --bind_ip localhost,node4
 
-### -d --> indica que este contêiner deve ser executado no modo desanexado (em segundo plano).
-### --name --> indica o nome do contêiner. Este se tornará o nome do host desta máquina.
-### -p --> indica o mapeamento de porta. Qualquer solicitação de entrada na porta 27017 em sua máquina será redirecionada para a porta 27017 no contêiner.
-### --network --> indica qual rede Docker usar. Todos os contêineres na mesma rede podem ver uns aos outros.
-### mongodb/mongodb-community-server:latest --> é a imagem que será usada pelo Docker. Esta imagem é o servidor MongoDB Community 
-### --bind_ip: Define os endereços IP que o MongoDB pode escutar.
+#### -d --> indica que este contêiner deve ser executado no modo desanexado (em segundo plano).
+#### --name --> indica o nome do contêiner. Este se tornará o nome do host desta máquina.
+#### -p --> indica o mapeamento de porta. Qualquer solicitação de entrada na porta 27017 em sua máquina será redirecionada para a porta 27017 no contêiner.
+#### --network --> indica qual rede Docker usar. Todos os contêineres na mesma rede podem ver uns aos outros.
+#### mongodb/mongodb-community-server:latest --> é a imagem que será usada pelo Docker. Esta imagem é o servidor MongoDB Community 
+#### --bind_ip: Define os endereços IP que o MongoDB pode escutar.
 
 ## Inicializar o conjunto de réplicas
 
