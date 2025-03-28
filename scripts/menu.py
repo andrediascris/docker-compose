@@ -30,6 +30,7 @@ def menu():
         print("\n\n\n")
         menu()
     elif opcao == "1":
+        print("\n\n\n")
         LeituraDistribuida.read_from_secondary(primario, Dados.db, Dados.table)
         print("\n\n\n")
         menu()
