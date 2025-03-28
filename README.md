@@ -97,7 +97,8 @@ No terminal para criar a rede docker
 
 # Outras possiveis funcionalidades para o cluster
 
-## Leitura distribuída: A leitura distribuída permite que consultas sejam realizadas nos nós secundários do cluster,
+## Leitura distribuída: 
+A leitura distribuída permite que consultas sejam realizadas nos nós secundários do cluster,
 aliviando a carga do nó primário e aumentando a capacidade de leitura.
 from pymongo import MongoClient
 
@@ -119,7 +120,8 @@ from pymongo import MongoClient
        
 ### O MongoClient é usado para se conectar ao cluster.
 
-## Escrita resiliente: Escrita resiliente garante que os dados sejam escritos de forma confiável,
+## Escrita resiliente:
+Escrita resiliente garante que os dados sejam escritos de forma confiável,
 mesmo em um ambiente de replicação, com tolerância a falhas.
 Você pode usar o write concern para controlar o nível de garantia na escrita.
 	
