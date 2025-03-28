@@ -1,4 +1,63 @@
-# docker-compose
+# **O que é um cluster**:question:
+
+O cluster é um conjunto de servidores interconectados que trabalham em conjunto
+fornecendo mais disponibilidade, escalabilidade e desempenho para aplicações.O
+cluster pode ser usado em banco de dados, computação distribuída e
+armazenamento de dados .
+No banco de dados, ele pode ser usado para distribuição da carga de trabalho entre
+vários nós, garantindo redundância e replicação para evitar falhas e melhorar o
+desempenho
+
+## O que é MongoDB :question:
+MongoDB é um sistema de gerenciamento de banco de dados NoSQL (Not Only
+SQL) de código aberto e orientado a documentos.
+
+## Como o MongoDB Trabalha com Clusters :question:
+Replica Set (Alta Disponibilidade)
+Um Replica Set é um grupo de servidores MongoDB que mantém cópias idênticas
+dos dados para garantir tolerância a falhas. Ele é composto por:
+
+* Primária: O nó principal que recebe operações de escrita e leitura.
+
+* Secundárias: Nós secundários que replicam os dados do nó primário e
+podem ser promovidos a primário caso ele falhe.
+
+* Arbiter (Opcional): Um nó que não armazena dados, mas participa das
+eleições para escolher um novo primário em caso de falha.
+
+**Vantagens:**
+
+* :heavy_check_mark: Redundância e segurança contra falhas.
+
+* :heavy_check_mark: Failover automático (se o primário falhar, um secundário assume).
+
+* :heavy_check_mark: Melhor distribuição de carga para leitura (se configurado corretamente).
+
+
+### Sharding (Escalabilidade Horizontal)
+O Sharding é o método do MongoDB para distribuir dados em múltiplos servidores
+para suportar grandes volumes de dados e melhorar o desempenho. Ele funciona
+da seguinte maneira:
+
+* Shards: Servidores que armazenam pedaços do banco de dados.
+
+* Config Servers: Armazenam metadados sobre os shards e ajudam a
+coordenar a distribuição dos dados.
+
+* Query Router (mongos): Encaminhar consultas para os shards apropriados.
+
+**Vantagens:**
+
+* :heavy_check_mark: Permite lidar com grandes volumes de dados.
+
+* :heavy_check_mark: Balanceamento de carga entre servidores.
+
+* :heavy_check_mark: Escalabilidade horizontal (adicionando mais máquinas conforme necessário).
+
+![image](https://github.com/user-attachments/assets/866f921a-a473-40c1-b48b-7e7d577146d5)
+
+
+# :computer: **docker-compose**
 No terminal para criar a rede docker 
 
    	 docker network create mongoCluster
@@ -30,7 +89,7 @@ No terminal para criar a rede docker
 ### mongosh: Inicia o shell interativo do MongoDB.
 ### rs.initiate: Inicializa o conjunto de réplicas com os membros especificados.
 
-## Verificar o status do cluster
+## Verificar o status do cluster :+1:
  	docker exec -it mongo1 mongosh --eval "rs.status()"
 ### Este comando exibe o status do conjunto de réplicas, incluindo quais nós estão ativos e sincronizados.
 
@@ -91,13 +150,13 @@ Você pode usar o write concern para controlar o nível de garantia na escrita.
 ### O método with_options() permite definir configurações de escrita específicas
 ### para a coleção minhaColecao, aplicando o write concern.
 ## Inserção de dados:
-###insert_one(): Realiza a escrita do documento, respeitando as garantias definidas pelo write concern.
+### insert_one(): Realiza a escrita do documento, respeitando as garantias definidas pelo write concern.
 
 ## Backup e restore automáticos
 ### Automatizar backups e restaurações ajuda a proteger os dados em caso de falhas ou perdas.
 
-## Segurança e autenticação:
-### Configure autenticação no MongoDB para proteger os dados e use SSL/TLS para criptografia.
+## :lock: Segurança e autenticação: 
+### Configure autenticação no MongoDB para proteger os dados e use SSL/TLS para criptografia. 
 	#Ative autenticação no mongod
 	mongod --auth
 
