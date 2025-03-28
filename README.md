@@ -54,7 +54,7 @@ coordenar a distribuição dos dados.
 
 * :heavy_check_mark: Escalabilidade horizontal (adicionando mais máquinas conforme necessário).
 
-![image](https://github.com/user-attachments/assets/866f921a-a473-40c1-b48b-7e7d577146d5)
+<img src="https://github.com/user-attachments/assets/866f921a-a473-40c1-b48b-7e7d577146d5" width="500px"/>
 
 
 # :computer: **docker-compose**
