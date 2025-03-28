@@ -1,3 +1,4 @@
+
 import subprocess
 import json
 from pymongo import MongoClient
@@ -60,6 +61,54 @@ def encontrar_primario(portas):
             print(f"[!] Erro inesperado em {porta}: {e}")
 
     return None
+
+
+def selecionar_secundarios():
+    portas = listar_portas_dos_mongos()
+    secundarios = []
+    for porta in portas:
+        uri = f"mongodb://localhost:{porta}/?directConnection=true&serverSelectionTimeoutMS=2000"
+        try:
+            client = MongoClient(uri)
+            status = client.admin.command("replSetGetStatus")
+
+            # Verifica qual membro é "self" e se é secundário
+            for member in status["members"]:
+                if member.get("self") and member["stateStr"] == "SECONDARY":
+                    print(f"[OK] SECONDARY encontrada: {uri}")
+                    secundarios.append(uri)
+        except Exception as e:
+            print(f"[!] Erro inesperado em {porta}: {e}")
+    
+    return secundarios
+
+def selecionar_mais_proximo():
+    portas = listar_portas_dos_mongos()
+    menor_ping = float("inf")
+    uri_mais_proxima = None
+
+    for porta in portas:
+        uri = f"mongodb://localhost:{porta}/?directConnection=true&serverSelectionTimeoutMS=2000"
+        try:
+            client = MongoClient(uri)
+            status = client.admin.command("replSetGetStatus")
+
+            for member in status["members"]:
+                if member.get("self"):
+                    ping = member.get("pingMs", 9999)
+                    if ping < menor_ping:
+                        menor_ping = ping
+                        uri_mais_proxima = uri
+        except Exception as e:
+            print(f"[!] Erro ao verificar ping em {porta}: {e}")
+
+    if uri_mais_proxima:
+        print(f"Nó mais próximo selecionado com ping de {menor_ping}ms: {uri_mais_proxima}")
+    else:
+        print("Nenhum nó mais próximo encontrado.")
+
+    return uri_mais_proxima
+
 
 def selecionar_primario():
     portas = listar_portas_dos_mongos()

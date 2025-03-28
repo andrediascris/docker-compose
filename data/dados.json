@@ -1,3 +1,6 @@
 {
-
+    "db": "sistemaCorp",
+    "table": "cliente",
+    "backup": "C:\\Users\\lucas\\OneDrive\\\u00c1rea de Trabalho\\backupTest",
+    "mongodump": "C:\\mongodb-database-tools-windows-x86_64-100.11.0\\mongodb-database-tools-windows-x86_64-100.11.0\\bin\\mongodump.exe"
 }
